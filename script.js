@@ -1,42 +1,55 @@
-function transform(arr) {
-  if(!Array.isArray(arr)){
-    throw new Error("'arr' parameter must be an instance of the Array!");
+function minesweeper(matrix) {
+
+  let result = [];
+  for (let i = 0; i < matrix.length; i++) {
+    let row = [];
+    for (let j = 0; j < matrix[i].length; j++) {
+      let element = 0;
+      let rowStart = i - 1;
+      let rowEnd = i + 1;
+      let colStart = j - 1;
+      let colEnd = j + 1
+      if (i < 1) {
+        rowStart = i;
+      }
+      if (i === matrix.length - 1) {
+        rowEnd = matrix.length - 1;
+      }
+      if (j < 1) {
+        colStart = j;
+      }
+      if (j === matrix.length - 1) {
+        colEnd = matrix.length - 1;
+      }
+
+      for (let k = rowStart; k <= rowEnd; k++) {
+
+        for (let n = colStart; n <= colEnd; n++) {
+          if (matrix[i][j] === false) {
+            if (matrix[k][n] === true) {
+              element++;
+
+            }
+          } else {
+            if (matrix[k][n] === true && k !== i && n !== j) {
+              element++;
+            }
+          }
+        }
+      }
+      row.push(element);
+    }
+    result.push(row);
   }
-  const resultArr = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === '--discard-next') {
-      resultArr.push(arr[i]);
-      i += 2;
-    }
-    if (arr[i] === '--discard-prev') {
-      resultArr.pop();
-      resultArr.push(arr[i]);
-    }
-    if (arr[i] === '--double-prev') {
-      resultArr.push(resultArr[resultArr.length - 1]);
-      resultArr.push(arr[i]);
-    }
-    if (arr[i] === '--double-next') {
-      resultArr.push(arr[i+1]);
-      resultArr.push(arr[i+1]);
-      i++;
-    }
-    else {
-      resultArr.push(arr[i]);
-    }
-  }
-  const resultDigitArr = []
-  resultArr.forEach(el => {
-    if (el !== '--discard-next' && el !=='--discard-prev' && el !== '--double-prev' && el !== '--double-next' && el !== undefined) {
-      resultDigitArr.push(el);
-    }
-  })
-  return resultDigitArr;
+  return result;
 }
 
 
 
-console.log(transform('str'));
+console.log(minesweeper([
+  [false, false, false],
+  [false, false, false],
+]));
 
 /*
 arrNumbers.sort(function (a, b) {
