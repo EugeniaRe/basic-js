@@ -1,78 +1,97 @@
-function encodeLine(str) {
-  if (!str) {
-    return '';
-  }
-  let resultStr = '';
-  let count = 1;
-  for (let i = str.length - 1; i >= 1; i--) {
-
-    if (str[i] === str[i - 1]) {
-      count++;
-    } else {
-      if (count === 1) {
-        resultStr += str[i];
-      } else {
-        resultStr += str[i] + count;
+function getCommonCharacterCount(s1, s2) {
+  const charArray = [];
+  for (let i = 0; i < s1.length; i++) {
+    let isIclude = false;
+    charArray.forEach(el => {
+      if (s1[i] === el) {
+        isIclude = true;
       }
-      count = 1;
+    })
+    if (!isIclude) {
+      charArray.push(s1[i]);
     }
-    console.log(count);
+  }
+  for (let i = 0; i < s2.length; i++) {
+    let isIclude = false;
+    charArray.forEach(el => {
+      if (s2[i] === el) {
+        isIclude = true;
+      }
+    })
+    if (!isIclude) {
+      charArray.push(s2[i]);
+    }
   }
 
-  resultStr += str[0];
+  let result = 0;
+  charArray.forEach(el => {
+    let s1Count = 0;
+    for (let i = 0; i < s1.length; i++) {
+      if (s1[i] === el) {
+        s1Count++;
+      }
+    }
+    let s2Count = 0;
+    for (let i = 0; i < s2.length; i++) {
+      if (s2[i] === el) {
+        s2Count++;
+      }
+    }
+    if(s1Count<s2Count){
+      result+=s1Count;
+    }else{
+      result+= s2Count;
+    }
+  })
+  return result;
+}
 
-  if(count !==1){
-    resultStr += count;
-  }
-
-  return resultStr.split('').reverse().join('');
-  }
 
 
-console.log(encodeLine('a2b2ca'));
 
 
-//a2b2ca'
+console.log(getCommonCharacterCount('aabcc', 'adcaa'));
 
-/*
-('aaaatttt'), '4a4t');
-    assert.strictEqual(encodeLine('aabbccc'), '2a2b3c');
-    assert.strictEqual(encodeLine('abbcca'), 'a2b2ca');
-    assert.strictEqual(encodeLine('xyz'), 'xyz');
-    assert.strictEqual(encodeLine(''), '');
-*/
 
-// function encodeLine(str) {
-//   const charArray = [];
-//   for (let i = 0; i < str.length; i++) {
-//     let isUnclude = false;
-//     charArray.forEach(el => {
-//       if (el === str[i])
-//         isUnclude = true;
-//     })
-//     if (!isUnclude) {
-//       charArray.push(str[i]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function renameFiles(names) {
+//   const resultArray = [];
+//   let alreadyExist = false;
+//   for(let i = 0; i<names.length; i++){
+
+//     resultArray.push(names[i]);
+
+//     for( let j = 0; j< resultArray.length; j++){
+//       if(resultArray[j] === names[i])
+//       alreadyExist = true;
 //     }
+//     if(alreadyExist){
+//       resultArray.pop();
+//       i--;
+//     }
+
 //   }
-
-//   let resultStr = '';
-//   charArray.forEach(el =>{
-//     let charCount = 0;
-//     for (let i = 0; i < str.length; i++) {
-//       if(el === str[i]){
-//         charCount++;
-//       }
-//     }
-//     if(charCount === 1){
-//       resultStr+= el;
-//     }else{
-//     resultStr+= charCount+el;
-//     }
-//   })
-
-//   return resultStr;
+//   return resultArray;
 // }
 
+// console.log(renameFiles(['doc', 'doc', 'image', 'doc(1)', 'doc']));
+
 
 
 
@@ -81,11 +100,9 @@ console.log(encodeLine('a2b2ca'));
 
 
 /*
- assert.equal(dateSample('9000'), false);
-      assert.equal(dateSample('15.1'), false);
-      assert.equal(dateSample('0'), false);
-      assert.equal(dateSample('-5'), false);
-      assert.equal(dateSample('-55.8'), false);
+ assert.deepEqual(renameFiles(['doc', 'doc', 'image', 'doc(1)', 'doc']), ['doc', 'doc(1)', 'image', 'doc(1)(1)', 'doc(2)']);
+    assert.deepEqual(renameFiles(['a', 'b', 'cd', 'b ', 'a(3)']), ['a', 'b', 'cd', 'b ', 'a(3)']);
+    assert.deepEqual(renameFiles([]), []);
 */
 
 //let date = new Date(2019, 11, 22, 23, 45, 11, 500)
